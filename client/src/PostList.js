@@ -1,5 +1,7 @@
 import React, {useState , useEffect} from 'react';
 import axios from 'axios';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 
 import CommentCreate from './CommentCreate';
 import CommentList from './CommentList';
@@ -9,7 +11,7 @@ export default () => {
     const [posts, setPosts]= useState({});
 
     const fetchPosts = async () => {
-        const res = await axios.get('http://localhost:4002/posts');
+        const res = await axios.get('http://posts.com/posts');
 
         setPosts(res.data);
     };
@@ -19,19 +21,33 @@ export default () => {
         
     }, []);
 
+    var count=0;
     const renderedPosts = Object.values(posts).map(post => {
+        count++;
         return (
-            <div className='card'
-            style ={{width:'30%', marginBottom: '20px'}}
-            key={post.id}>
-                <div className='card-body'>
-                    <h3>{post.title}</h3>
-                    <CommentList comments= {post.comments} />
-                    <CommentCreate postId={post.id}/>
 
-                </div>
 
-            </div>
+            <div key={post.id}>
+            <Card  >
+            <Card.Header>POST {count}</Card.Header>
+            <Card.Body>
+            <Card.Title>{post.title}</Card.Title>
+            <CommentList comments= {post.comments} />
+            <CommentCreate postId={post.id}/>
+              
+            </Card.Body>
+            <Card.Footer  >2 days ago</Card.Footer>
+          </Card>
+
+
+
+        
+          </div>
+
+
+
+
+            
         )
     });
 
